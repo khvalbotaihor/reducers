@@ -1,10 +1,7 @@
 import {FilterValuesType, TodolistType} from "../App";
 import {v1} from "uuid";
 import {
-    AddTodolistAC,
-    AddTodolistTypeActionType,
-    ChangeTodolistFilterActionType, ChangeTodolistTitleAC, RemoveTodolistAC,
-    RemoveTodolistTypeActionType,
+    AddTodolistAC, ChangeTodolistFilterAC, ChangeTodolistTitleAC, RemoveTodolistAC,
     todoListReducer
 } from "./todolists-reducer";
 
@@ -63,13 +60,8 @@ test('correct filter of todolist should be changed', () => {
     ]
 
     let newFilterValue: FilterValuesType = "completed"
-    const action: ChangeTodolistFilterActionType = {
-        type: 'CHANGE-TODOLIST-FILTER',
-        id: todoListId1,
-        filter: newFilterValue
-    }
 
-    const endState = todoListReducer(startState, action)
+    const endState = todoListReducer(startState, ChangeTodolistFilterAC(todoListId1, newFilterValue))
     expect(endState[0].filter).toBe(newFilterValue)
     expect(endState[1].filter).toBe("all")
 })
