@@ -1,8 +1,9 @@
 import {FilterValuesType, TodolistType} from "../App";
 import {v1} from "uuid";
 import {
+    AddTodolistAC,
     AddTodolistTypeActionType,
-    ChangeTodolistFilterActionType, RemoveTodolistAC,
+    ChangeTodolistFilterActionType, ChangeTodolistTitleAC, RemoveTodolistAC,
     RemoveTodolistTypeActionType,
     todoListReducer
 } from "./todolists-reducer";
@@ -31,11 +32,11 @@ test('new todoList should be added', () => {
     ]
 
     let newTodoListTitle = "New TodoList"
-const  action : AddTodolistTypeActionType = {type: 'ADD-TODOLIST', title: newTodoListTitle}
-    const endState = todoListReducer(startState, action)
+    const endState = todoListReducer(startState, AddTodolistAC(newTodoListTitle))
     expect(endState.length).toBe(3)
     expect(endState[2].title).toBe(newTodoListTitle)
 })
+
 test('correct todoList should change its name', () => {
     let todoListId1 = v1();
     let todoListId2 = v1();
@@ -46,12 +47,8 @@ test('correct todoList should change its name', () => {
     ]
 
     let newTodoListTitle = "New TodoList"
-    const action = {
-        type: 'CHANGE-TODOLIST-TITLE' as const,
-        id: todoListId1,
-        title: newTodoListTitle
-    }
-    const endState = todoListReducer(startState, action)
+
+    const endState = todoListReducer(startState, ChangeTodolistTitleAC(todoListId1, newTodoListTitle))
     expect(endState[0].title).toBe(newTodoListTitle)
     expect(endState[1].title).toBe("What to buy")
 })
